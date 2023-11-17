@@ -1,0 +1,436 @@
+
+<div class="container-fluid" style="margin: auto;" >
+
+  <nav class="page-breadcrumb" style="text-align: right;">
+      <h4 class="card-title" style="text-align: left;">Add Provider Management</h4>
+
+      <ol class="breadcrumb justify-content-end">
+          <li class="breadcrumb-item"><a routerLink="/provider-panel">Provider-Panel</a></li>
+          <li class="breadcrumb-item active" aria-current="page">New Provider Panel</li>
+      </ol>
+  </nav>
+
+  <div class="card card-primary" >
+    <div class="d-flex justify-content-center align-items-center" style="height: 100vh;" *ngIf="isBodyLoading == true">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  <form class="forms-sample" *ngIf="providerManagementForm!=undefined || this.isBodyLoading == false" [formGroup]="providerManagementForm" (ngSubmit)="onSubmit()">
+          <div class="card-header">
+
+          </div>
+          <div class="card-body">
+              <div class="row">
+                  <div class="col-md-6 grid-margin ">
+                      <div class="card">
+                          <div class="card-header bg-primary">
+                              <h2 class="card-title text-white">Basic Info</h2>
+                          </div>
+
+                          <div class="card-body">
+                              <div class="mb-3">
+                                  <label class="form-label" style="font-weight: bold;">Code</label>
+                                  <input type="text" disabled class="form-control" autocomplete="off"
+                                         placeholder="Auto Generated">
+                              </div>
+
+                              <div class="mb-3">
+                                  <label style="font-weight: bold;" class="form-label">Name *</label>
+                                  <input type="text" class="form-control"
+                                         [ngClass]="providerManagementForm.get('name').touched && providerManagementForm.get('name').hasError('required') ? 'is-invalid' : ''"
+                                         formControlName="name" autocomplete="off"
+                                         placeholder="Name" required />
+
+                                  <div *ngIf="providerManagementForm.get('name').hasError('required') && (providerManagementForm.get('name').touched || submitted)"
+                                       style="color:red">
+                                      Name is required.
+                                  </div>
+                                  <div
+                                          *ngIf="providerManagementForm.get('name')?.hasError('minlength') && providerManagementForm.get('name')?.touched"
+                                          style="color:red">
+                                      Name must be at least 3 characters.
+                                  </div>
+                                  <div
+                                          *ngIf="providerManagementForm.get('name')?.hasError('maxlength') && providerManagementForm.get('name')?.touched"
+                                          style="color:red">
+                                      Name cannot exceed 30 characters.
+                                  </div>
+                                  <div *ngIf="providerManagementForm.get('name')?.hasError('pattern') && providerManagementForm.get('name')?.touched"
+                                       style="color:red">
+                                      Invalid pattern for Name.
+                                  </div>
+                              </div>
+
+                              <div class="mb-3">
+                                  <label style="font-weight: bold;" class="form-label">Reference*</label>
+                                  <input type="text" class="form-control"
+                                  [ngClass]="providerManagementForm.get('reference').touched && providerManagementForm.get('reference').hasError('required') ? 'is-invalid' : ''"
+                                  formControlName="reference" autocomplete="off" placeholder="Reference" required />
+
+                           <div *ngIf="providerManagementForm.get('reference').hasError('required') && (providerManagementForm.get('reference').touched || submitted)"
+                                style="color: red">
+                             Reference is required.
+                           </div>
+
+                           <div
+                           *ngIf="providerManagementForm.get('reference')?.hasError('minlength') && providerManagementForm.get('reference')?.touched"
+                           style="color:red">
+                           Reference must be at least 3 characters.
+                   </div>
+                                  <div
+                                          *ngIf="providerManagementForm.get('reference')?.hasError('pattern') && providerManagementForm.get('reference')?.touched"
+                                          style="color:red">
+                                      Invalid pattern for Reference.
+                                  </div>
+                              </div>
+                              <div class="mb-3">
+                                  <label style="font-weight: bold;" class="form-label">Password *</label>
+                                  <div class="input-group mb-3">
+                                    <input type="text" class="form-control" readonly
+                                    [ngClass]="providerManagementForm.get('reference').touched && providerManagementForm.get('password').hasError('required') ? 'is-invalid' : ''"
+                                    formControlName="password" autocomplete="off" placeholder="Password" required />
+                                      <button class="input-group-text btn-primary" id="basic-addon2"
+                                              type="button" style="background-color:#17a2b8 ;color: whitesmoke;" (click)="generatePassword()">Generate Password
+                                      </button>
+                                  </div>
+                                  <!-- <div
+                                          *ngIf="providerManagementForm.get('password')?.hasError('required') && providerManagementForm.get('password')?.touched && submitted"
+                                          style="color:red">
+                                      Password is required.
+                                  </div> -->
+                                  <div *ngIf="providerManagementForm.get('password').hasError('required') && (providerManagementForm.get('password').touched || submitted)"
+                                  style="color: red">
+                                  Password is required.
+                             </div>
+                                  <!-- <div
+                                          *ngIf="providerManagementForm.get('password')?.hasError('minlength') && providerManagementForm.get('password')?.touched && submitted"
+                                          style="color: red;">
+                                      Password must be at least 6 characters.
+                                  </div> -->
+                                  <div
+                                  *ngIf="providerManagementForm.get('password')?.hasError('minlength') && providerManagementForm.get('password')?.touched"
+                                  style="color:red">
+                                  Password must be at least 6 characters..
+                          </div>
+
+                                  <div
+                                  *ngIf="providerManagementForm.get('password')?.hasError('maxlength') && providerManagementForm.get('password')?.touched"
+                                  style="color:red">
+                                  Password cannot exceed 60 characters.
+                          </div>
+
+                              </div>
+                              <div class="mb-3">
+                                  <label style="font-weight: bold;" class="form-label">Contact No</label>
+                                  <input type="text" class="form-control"
+                                  [ngClass]="providerManagementForm.get('contactNo').touched && providerManagementForm.get('contactNo').hasError('required') ? 'is-invalid' : ''"
+                                  formControlName="contactNo" autocomplete="off" placeholder="contactNo" required />
+
+                                  <!-- <input type="text" class="form-control" formControlName="contactNo"
+                                         autocomplete="off"
+                                         placeholder="Contact No"> -->
+
+                                  <div *ngIf="providerManagementForm.get('contactNo').hasError('required') && (providerManagementForm.get('password').touched || submitted)"
+                                  style="color: red">
+                                  Contact number is required.
+                             </div>
+                             <div
+                             *ngIf="providerManagementForm.get('contactNo')?.hasError('maxlength') && providerManagementForm.get('contactNo')?.touched"
+                             style="color:red">
+                             Contact number cannot exceed 11 digits.
+                     </div>
+
+                                  <div
+                                          *ngIf="providerManagementForm.get('contactNo')?.hasError('pattern') && providerManagementForm.get('contactNo')?.touched"
+                                          style="color: red;">
+                                      Only numbers are allowed for the contact number.
+                                  </div>
+                              </div>
+
+
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="col-md-6 grid-margin stretch-card">
+                      <div class="card">
+                          <!-- </div> -->
+                          <div class="card-header text-white bg-danger">
+                              <h6 class="card-title ">Share and Commission</h6>
+                          </div>
+                          <div class="card-body">
+                              <!-- <div class="col-md -12 head" style="background-color: blue;">
+
+                              </div> -->
+
+                              <div class="row">
+                                  <div class="col-sm-6">
+                                      <div class="mb-3">
+                                          <label style="font-weight: bold;" class="form-label">Current Limit</label>
+                                          <input type="number" class="form-control"
+                                          [ngClass]="providerManagementForm.get('currentLimit').touched && providerManagementForm.get('currentLimit').hasError('required') ? 'is-invalid' : ''"
+                                          formControlName="currentLimit" autocomplete="off" placeholder="current Limit" required />
+
+                                          <div
+                                                  *ngIf="providerManagementForm.get('currentLimit')?.hasError('min') && providerManagementForm.get('currentLimit')?.touched">
+                                              Current limit must be greater than or equal to 0.
+                                          </div>
+                                          <div
+                                                  *ngIf="providerManagementForm.get('currentLimit')?.hasError('max') && providerManagementForm.get('currentLimit')?.touched" style="color:red">
+                                              Current limit must be less than or equal to {{subAdmin?.currentLimit}}.
+                                          </div>
+                                          <div
+                                                  *ngIf="providerManagementForm.get('currentLimit').hasError('required') && (providerManagementForm.get('currentLimit').touched|| submitted)"
+                                                  style="color:red">
+                                              Current limit must be greater than or equal to 0.
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="col-sm-6">
+                                      <label style="font-weight: bold;" class="form-label">My Limit</label>
+                                      <input type="number" class="form-control" disabled autocomplete="off" [value]="subAdmin?.currentLimit" >
+
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <div class="col-sm-6">
+                                      <div class="mb-3">
+                                          <label style="font-weight: bold;" class="form-label">Share</label>
+                                          <!-- <input type="number" class="form-control" formControlName="share"
+                                                 autocomplete="off"
+                                                 placeholder="Share"> -->
+                                                 <input type="text" class="form-control"
+                                                 [ngClass]="providerManagementForm.get('share').touched  && providerManagementForm.get('share').hasError('required') ? 'is-invalid' : ''"
+                                                 formControlName="share" autocomplete="off" placeholder="Share " required />
+
+                                          <div
+                                                  *ngIf="providerManagementForm.get('share').hasError('required') && (providerManagementForm.get('share')?.touched||submitted)"
+                                                  style="color:red">
+                                              Share must be greater than or equal to 0.
+                                          </div>
+                                          <div
+                                                  *ngIf="providerManagementForm.get('share')?.hasError('min') && providerManagementForm.get('share')?.touched"
+                                                  style="color:red">
+                                              Share must be greater than or equal to 0.
+                                          </div>
+                                          <div
+                                                  *ngIf="providerManagementForm.get('share')?.hasError('max') && providerManagementForm.get('share')?.touched"
+                                                  style="color:red">
+                                              Share must be less than or equal to {{subAdmin?.share}}.
+                                          </div>
+                                          <!-- <div class="error-message" *ngIf="providerManagementForm.get('share')?.errors && providerManagementForm.get('share').touched" class="error-message">
+                                            {{ providerManagementForm.get('share').errors  }}
+                                          </div> -->
+                                          <div *ngIf="serverErrors?.share && serverErrors != null" class="server-error" style="color: red;">
+                                            {{ serverErrors?.share }}
+                                          </div>
+                                          <!-- <div class="error-message" *ngIf="providerManagementForm.get('cShareBackendError')?.value">
+                                            {{ providerManagementForm.get('cShareBackendError').value }}
+                                          </div> -->
+
+                                      </div>
+                                  </div>
+                                  <div class="col-sm-6">
+                                      <label style="font-weight: bold;" class="form-label">My Share</label>
+                                      <input type="number" class="form-control" disabled autocomplete="off"
+                                             [value]="subAdmin?.share">
+
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <div class="col-sm-6">
+                                      <div class="mb-3">
+                                          <label style="font-weight: bold;" class="form-label">Casino Share</label>
+
+                                                 <input type="text" class="form-control"
+                                                 [ngClass]="providerManagementForm.get('cShare').touched && providerManagementForm.get('cShare').hasError('required') ? 'is-invalid' : ''"
+                                                 formControlName="cShare" autocomplete="off" placeholder="Casino Share " required />
+                                          <div
+                                                  *ngIf="providerManagementForm.get('cShare').hasError('required') && (providerManagementForm.get('cShare').touched ||submitted)"
+                                                  style="color:red">
+                                              Casino share must be greater than or equal to 0.
+                                          </div>
+                                          <div
+                                                  *ngIf="providerManagementForm.get('cShare')?.hasError('max') && providerManagementForm.get('cShare')?.touched"
+                                                  style="color:red">
+                                              Casino share must be less than or equal to {{subAdmin?.cshare}}.
+                                          </div>
+
+                                          <div *ngIf="serverErrors?.cShare && serverErrors != null" class="server-error" style="color: red;">
+                                            {{ serverErrors?.cShare }}
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="col-sm-6">
+                                      <label style="font-weight: bold;" class="form-label"> My Casino Share</label>
+                                      <input type="number" class="form-control" disabled autocomplete="off"
+                                             [value]="subAdmin?.cshare">
+
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <div class="col-sm-6">
+                                      <div class="mb-3">
+                                          <label style="font-weight: bold;" class="form-label">International Casino
+                                              Share</label>
+                                          <!-- <input type="number" class="form-control" formControlName="icShare"
+                                                 autocomplete="off"
+                                                 placeholder="IC Share"> -->
+                                                 <input type="number" class="form-control"
+                                                 [ngClass]="providerManagementForm.get('icShare').touched && providerManagementForm.get('icShare').hasError('required') ? 'is-invalid' : ''"
+                                                 formControlName="icShare" autocomplete="off" placeholder="International Casino Share " required />
+
+                                          <div
+                                                  *ngIf="providerManagementForm.get('icShare').hasError('required') && (providerManagementForm.get('icShare').touched || submitted) "
+                                                  style="color:red">
+                                              Casino share must be greater than or equal to 0.
+                                          </div>
+                                          <div
+                                                  *ngIf="providerManagementForm.get('icShare')?.hasError('max') && providerManagementForm.get('icShare')?.touched"
+                                                  style="color:red">
+                                              Casino share must be less than or equal to {{subAdmin?.icShare}}.
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="col-sm-6">
+                                      <label style="font-weight: bold;" class="form-label"> My International Casino
+                                          Share</label>
+                                      <input type="number" class="form-control" disabled autocomplete="off"
+                                             [value]="subAdmin?.icShare">
+
+                                  </div>
+                              </div>
+                              <div class="row mb-3">
+                                  <div class="col-sm-6">
+                                      <label style="font-weight: bold;" class="form-label">Mobile Share</label>
+                                      <!-- <input type="text" class="form-control" formControlName="mobileShare"
+                                             autocomplete="off"
+                                             placeholder="Mobile Share"> -->
+                                             <input type="number" class="form-control"
+                                                 [ngClass]="providerManagementForm.get('mobileShare').touched && providerManagementForm.get('mobileShare').hasError('required') ? 'is-invalid' : ''"
+                                                 formControlName="mobileShare" autocomplete="off" placeholder="International Casino Share " required />
+                                      <div
+                                              *ngIf="providerManagementForm.get('mobileShare').hasError('required') && (providerManagementForm.get('mobileShare').touched||submitted)"
+                                              style="color: red;">
+                                          Mobile share must be greater than or equal to 0.
+                                      </div>
+                                      <div
+                                              *ngIf="providerManagementForm.get('mobileShare')?.hasError('max') && providerManagementForm.get('mobileShare')?.touched"
+                                              style="color: red;">
+                                          Mobile share must be less than or equal to {{subAdmin?.mobileShare}}.
+                                      </div>
+                                      <div *ngIf="serverErrors?.mobileShare && serverErrors != null" class="server-error" style="color: red;">
+                                        {{ serverErrors?.mobileShare }}
+                                      </div>
+                                  </div>
+                                  <div class="col-sm-6">
+                                      <label style="font-weight: bold;" class="form-label">My Mobile Share</label>
+                                      <input type="text" class="form-control" disabled autocomplete="off"
+                                             [value]="subAdmin?.mobileShare">
+
+                                  </div>
+                              </div>
+                              <div class="row mb-3">
+                                  <div class="col-sm-6">
+                                      <label style="font-weight: bold;" class="form-label">Match Commission</label>
+                                      <!-- <input type="text" class="form-control" formControlName="mc" autocomplete="off"
+                                             placeholder="Mathc Commission"> -->
+                                             <input type="number" class="form-control"
+                                             [ngClass]="providerManagementForm.get('mc').touched && providerManagementForm.get('mc').hasError('required') ? 'is-invalid' : ''"
+                                             formControlName="mc" autocomplete="off" placeholder="Match Commission" required />
+
+                                      <div *ngIf="providerManagementForm.get('mc').hasError('required') && (providerManagementForm.get('mc').touched|| submitted)"
+                                           style="color: red;">
+                                          Match Commission must be greater than or equal to 0.
+                                      </div>
+                                      <div *ngIf="providerManagementForm.get('mc')?.hasError('max') && providerManagementForm.get('mc')?.touched"
+                                           style="color: red;">
+                                          Match Commission must be less than or equal to {{subAdmin?.mc}}.
+                                      </div>
+                                  </div>
+                                  <div class="col-sm-6">
+                                      <label style="font-weight: bold;" class="form-label">My Match Commission</label>
+                                      <input type="text" class="form-control" disabled autocomplete="off"
+                                             [value]="subAdmin?.mc">
+
+                                  </div>
+                              </div>
+                              <div class="row mb-3">
+                                  <div class="col-sm-6">
+                                      <label style="font-weight: bold;" class="form-label">Session Commission</label>
+                                      <!-- <input type="text" class="form-control" formControlName="sc" autocomplete="off"
+                                             placeholder="Session Commission"> -->
+                                             <input type="number" class="form-control"
+                                             [ngClass]="providerManagementForm.get('sc').touched && providerManagementForm.get('sc').hasError('required') ? 'is-invalid' : ''"
+                                             formControlName="sc" autocomplete="off" placeholder="Session Commission" required />
+
+                                      <div *ngIf="providerManagementForm.get('sc').hasError('required') && (providerManagementForm.get('sc').touched ||submitted)"
+                                           style="color: red;">
+                                          Session Commission must be greater than or equal to 0.
+                                      </div>
+                                      <div *ngIf="providerManagementForm.get('sc')?.hasError('max') && providerManagementForm.get('sc')?.touched"
+                                           style="color: red;">
+                                          Session Commission must be less than or equal to {{subAdmin?.sc}}.
+                                      </div>
+                                  </div>
+                                  <div class="col-sm-6">
+                                      <label style="font-weight: bold;" class="form-label">My Session
+                                          Commission</label>
+                                      <input type="text" class="form-control" disabled readonly [value]="subAdmin?.sc">
+
+                                  </div>
+                              </div>
+                              <div class="row mb-3">
+                                  <div class="col-sm-6">
+                                      <label style="font-weight: bold;" class="form-label">Casino Commission</label>
+                                      <!-- <input type="text" class="form-control" formControlName="cc"
+                                             placeholder="Casino Commission"
+                                             autocomplete="off"> -->
+                                             <input type="number" class="form-control"
+                                             [ngClass]="providerManagementForm.get('cc').touched && providerManagementForm.get('cc').hasError('required') ? 'is-invalid' : ''"
+                                             formControlName="cc" autocomplete="off" placeholder="Casino Commission" required />
+
+                                      <div *ngIf="providerManagementForm.get('cc').hasError('required') && (providerManagementForm.get('cc').touched ||submitted)"
+                                           style="color: red;">
+                                          Casino Commission must be greater than or equal to 0.
+                                      </div>
+                                      <div *ngIf="providerManagementForm.get('cc')?.hasError('max') && providerManagementForm.get('cc')?.touched" style="color: red;">
+                                          Casino Commission must be less than or equal to {{subAdmin?.cc}}.
+                                      </div>
+                                  </div>
+
+                                  <div class="col-sm-6">
+                                      <label style="font-weight: bold;" class="form-label">My Casino
+                                          Commission</label>
+                                      <input type="text" class="form-control" disabled autocomplete="off" readonly
+                                             [value]="subAdmin?.cc">
+
+                                  </div>
+
+                              </div>
+
+                          </div>
+
+                      </div>
+                  </div>
+              </div>
+
+          </div>
+          <div class="card-footer d-flex justify-content-between">
+              <a routerLink="/provider-panel" class="btn btn-primary me-2">Cancel</a>
+              <button type="submit" *ngIf="isLoading==false" class="btn btn-primary me-2">Create New Provider-Panel </button>
+              <!-- <span *ngIf="!submitted">Submit</span> -->
+              <!-- <span *ngIf="submitted"> -->
+                    <!-- this.= false -->
+                    <div class="spinner-border" role="status" *ngIf="isLoading==true">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+                <!-- </span> -->
+          </div>
+        </form>
+      </div>
+
+
+</div>
+
